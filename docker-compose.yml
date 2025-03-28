@@ -1,0 +1,63 @@
+version: '3.9'
+
+services:
+  attacker:
+    build: .
+    image: large
+    container_name: seed-attacker
+    tty: true
+    cap_add:
+      - ALL
+    privileged: true
+    volumes:
+      - ./volumes:/volumes
+    networks:
+      net-10.9.0.0:
+        ipv4_address: 10.9.0.10
+
+  victim:
+    image: httpd:latest
+    container_name: my-apache-app
+    ports:
+      - '8080:80'
+    volumes:
+      - ./website:/usr/local/apache2/htdocs
+    networks:
+      net-10.9.0.0:
+        ipv4_address: 10.9.0.5
+    entrypoint: ["httpd-foreground"]
+    privileged: true
+
+  user1:
+    build: .
+    image: large
+    container_name: user1-10.9.0.6
+    tty: true
+    cap_add:
+      - ALL
+    networks:
+      net-10.9.0.0:
+        ipv4_address: 10.9.0.6
+    command: >
+      /bin/sh -c "/etc/init.d/openbsd-inetd start && while true; do sleep 60; done"
+
+  user2:
+    build: .
+    image: large
+    container_name: user2-10.9.0.7
+    tty: true
+    cap_add:
+      - ALL
+    networks:
+      net-10.9.0.0:
+        ipv4_address: 10.9.0.7
+    command: >
+      /bin/sh -c "/etc/init.d/openbsd-inetd start && while true; do sleep 60; done"
+
+networks:
+  net-10.9.0.0:
+    name: net-10.9.0.0
+    ipam:
+      config:
+        - subnet: 10.9.0.0/24
+
