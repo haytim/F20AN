@@ -14,6 +14,9 @@ docker exec -it user1-10.9.0.6 bash
 curl http://10.9.0.5/ 
 
 
+
+### Adam's Running Script
+
 apt update -y
 
 apt install python3
@@ -26,3 +29,7 @@ ls REPO
 
 python filename.py
 
+
+### Check if hosts are running
+
+docker ps
