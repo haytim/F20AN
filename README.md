@@ -23,11 +23,15 @@ apt install python3
 
 apt install git
 
-git clone REPO
+git clone https://github.com/haytim/F20AN.git
 
-ls REPO
+ls F20AN
 
-python filename.py
+cd F20AN
+
+cd scripts
+
+python slowloris.py
 
 
 ### Check if hosts are running
