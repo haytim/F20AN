@@ -42,7 +42,9 @@ docker ps
 
 curl -o /dev/null -s -w "Time Total: %{time_total}\\n" http://10.9.0.5
 
+
 or
+
 
 while true; do
 
