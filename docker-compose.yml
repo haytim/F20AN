@@ -15,7 +15,7 @@ services:
       net-10.9.0.0:
         ipv4_address: 10.9.0.10
 
-  victim:
+  victim_apache:
     image: httpd:latest
     container_name: my-apache-app
     ports:
@@ -26,6 +26,30 @@ services:
       net-10.9.0.0:
         ipv4_address: 10.9.0.5
     entrypoint: ["httpd-foreground"]
+    privileged: true
+
+  victim_nginx:
+    image: nginx:latest
+    container_name: my-nginx-app
+    ports:
+      - '8081:80'
+    volumes:
+      - ./nginx_site:/usr/share/nginx/html
+    networks:
+      net-10.9.0.0:
+        ipv4_address: 10.9.0.8
+    privileged: true
+
+  victim_caddy:
+    image: caddy:latest
+    container_name: my-caddy-app
+    ports:
+      - '8082:80'
+    volumes:
+      - ./caddy_site:/usr/share/caddy
+    networks:
+      net-10.9.0.0:
+        ipv4_address: 10.9.0.9
     privileged: true
 
   user1:

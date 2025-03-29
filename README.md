@@ -33,3 +33,21 @@ python filename.py
 ### Check if hosts are running
 
 docker ps
+
+### Create html files for nginx and caddy
+
+sudo chown -R $USER:$USER ./nginx_site
+
+sudo chown -R $USER:$USER ./caddy_site
+
+
+chmod -R 755 ./nginx_site
+
+echo "<h1>Hello Nginx</h1>" > ./nginx_site/index.html
+
+
+chmod -R 755 ./caddy_site
+
+echo "<h1>Hello Caddy</h1>" > ./caddy_site/index.html
+
+
