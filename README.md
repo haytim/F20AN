@@ -31,7 +31,7 @@ cd F20AN
 
 cd scripts
 
-python slowloris.py
+python3 slowloris.py
 
 
 ### Check if hosts are running
