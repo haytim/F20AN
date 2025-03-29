@@ -43,11 +43,11 @@ sudo chown -R $USER:$USER ./caddy_site
 
 chmod -R 755 ./nginx_site
 
-echo "<h1>Hello Nginx</h1>" > ./nginx_site/index.html
+echo "\<h1\>Hello Nginx\</h1\>" > ./nginx_site/index.html
 
 
 chmod -R 755 ./caddy_site
 
-echo "<h1>Hello Caddy</h1>" > ./caddy_site/index.html
+echo "\<h1\>Hello Caddy\</h1\>" > ./caddy_site/index.html
 
 
