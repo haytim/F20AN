@@ -38,20 +38,20 @@ python3 slowloris.py
 
 docker ps
 
-### Create html files for nginx and caddy
+### Run Connection Benchmark
 
-sudo chown -R $USER:$USER ./nginx_site
+curl -o /dev/null -s -w "Time Total: %{time_total}\\n" http://10.9.0.5
 
-sudo chown -R $USER:$USER ./caddy_site
+or
 
+while true; do
 
-chmod -R 755 ./nginx_site
-
-echo "\<h1\>Hello Nginx\</h1\>" > ./nginx_site/index.html
-
-
-chmod -R 755 ./caddy_site
-
-echo "\<h1\>Hello Caddy\</h1\>" > ./caddy_site/index.html
+  echo -n "$(date) - " >> curl_log.txt
+  
+  curl -o /dev/null -s -w "Time Total: %{time_total}\\n" http://10.9.0.5 >> curl_log.txt
+  
+  sleep 5
+  
+done
 
 
