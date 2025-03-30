@@ -64,7 +64,6 @@ apt update && apt install -y nano
 
 nano /usr/local/apache2/conf/httpd.conf
 
-##### Protection against Slowloris
 
 \<IfModule reqtimeout_module\>
   \
