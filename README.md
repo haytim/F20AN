@@ -67,7 +67,7 @@ nano /usr/local/apache2/conf/httpd.conf
 ##### Protection against Slowloris
 
 \<IfModule reqtimeout_module\>
-  
+  \
     RequestReadTimeout header=10-20,MinRate=500 body=10,MinRate=500
     
 \</IfModule\>
