@@ -15,6 +15,20 @@ services:
       net-10.9.0.0:
         ipv4_address: 10.9.0.10
 
+  attacker2:
+    build: .
+    image: large
+    container_name: seed-attacker2
+    tty: true
+    cap_add:
+      - ALL
+    privileged: true
+    volumes:
+      - ./volumes:/volumes
+    networks:
+      net-10.9.0.0:
+        ipv4_address: 10.9.0.11
+
   victim_apache:
     image: httpd:latest
     container_name: my-apache-app
