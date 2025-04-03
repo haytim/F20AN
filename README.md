@@ -38,20 +38,42 @@ python3 slowloris.py
 
 docker ps
 
-### Create html files for nginx and caddy
+### Run Connection Benchmark
 
-sudo chown -R $USER:$USER ./nginx_site
-
-sudo chown -R $USER:$USER ./caddy_site
+curl -o /dev/null -s -w "Time Total: %{time_total}\\n" http://10.9.0.5
 
 
-chmod -R 755 ./nginx_site
-
-echo "\<h1\>Hello Nginx\</h1\>" > ./nginx_site/index.html
+or
 
 
-chmod -R 755 ./caddy_site
+while true; do
 
-echo "\<h1\>Hello Caddy\</h1\>" > ./caddy_site/index.html
+  echo -n "$(date) - " >> curl_log.txt
+  
+  curl -o /dev/null -s -w "Time Total: %{time_total}\\n" http://10.9.0.5 >> curl_log.txt
+  
+  sleep 5
+  
+done
 
+### Code for implementing countermeasure
+
+docker exec -it my-apache-app bash
+
+apt update && apt install -y nano
+
+nano /usr/local/apache2/conf/httpd.conf
+
+
+\<IfModule reqtimeout_module\>
+  \
+    RequestReadTimeout header=10-20,MinRate=500 body=10,MinRate=500
+    
+\</IfModule\>
+
+KeepAlive On
+
+MaxKeepAliveRequests 50
+
+KeepAliveTimeout 2
 
