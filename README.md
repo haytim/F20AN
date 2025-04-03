@@ -7,13 +7,15 @@ dcbuild
 
 docker-compose up -d
 
-### Running Scripts
+### Enter Host Terminal
+
+docker exec -it my-apache-app bash
+
+docker exec -it seed-attacker bash
+
+docker exec -it seed-attacker2 bash
 
 docker exec -it user1-10.9.0.6 bash
-
-curl http://10.9.0.5/ 
-
-
 
 ### Adam's Running Script
 
