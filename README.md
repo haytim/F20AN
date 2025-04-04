@@ -79,3 +79,6 @@ MaxKeepAliveRequests 50
 
 KeepAliveTimeout 2
 
+### Restart Apache after changing config
+
+apachectl restart
