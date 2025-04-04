@@ -79,8 +79,9 @@ if __name__ == "__main__":
         print("Usage: python timLoris.py <apache|nginx|caddy> <Port> <Socket Count>")
         sys.exit(1)
         
-    if sys.argv[4] == "log":
-        log = True
+    if len(sys.argv) == 5:
+        if sys.argv[4] == "log":
+            log = True
 
     slowloris(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), log)
 
