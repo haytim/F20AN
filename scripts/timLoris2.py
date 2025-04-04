@@ -75,7 +75,7 @@ def slowloris(victim_type, port, socket_count, log):
         print("Attack stopped by user.")
 
 if __name__ == "__main__":
-    if len(sys.argv) != 5 or sys.argv[1] not in victim_hosts:
+    if len(sys.argv) < 4 or sys.argv[1] not in victim_hosts:
         print("Usage: python timLoris.py <apache|nginx|caddy> <Port> <Socket Count>")
         sys.exit(1)
         
