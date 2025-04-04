@@ -73,7 +73,9 @@ nano /usr/local/apache2/conf/httpd.conf
     
 \</IfModule\>
 
-KeepAlive On
+KeepAlive Off
+
+# Keep Alive On Settings
 
 MaxKeepAliveRequests 50
 
