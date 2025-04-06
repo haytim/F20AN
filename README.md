@@ -57,7 +57,7 @@ while true; do
   
   sleep 5
 
-USE python3 benchmark.py <apache|nginx|caddy> output.txt <iterations>
+USE python3 benchmark.py <apache|nginx|caddy> output.txt <iterations> 20
   
 done
 
