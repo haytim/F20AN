@@ -55,6 +55,8 @@ while true; do
   curl -o /dev/null -s -w "Time Total: %{time_total}\\n" http://10.9.0.5 >> curl_log.txt
   
   sleep 5
+
+USE python3 benchmark.py <apache|nginx|caddy> output.txt <iterations>
   
 done
 
@@ -66,16 +68,41 @@ apt update && apt install -y nano
 
 nano /usr/local/apache2/conf/httpd.conf
 
-
-\<IfModule reqtimeout_module\>
-  \
-    RequestReadTimeout header=10-20,MinRate=500
-    
-\</IfModule\>
+Level 1 - No Additional Protection to KeepAlive Off
 
 KeepAlive Off
 
-# Keep Alive On Settings
+Level 2 - Minimal
+
+<IfModule reqtimeout_module>
+    RequestReadTimeout header=30-40,MinRate=200
+</IfModule>
+
+KeepAlive Off
+
+Level 3 - Moderate
+
+<IfModule reqtimeout_module>
+    RequestReadTimeout header=20-30,MinRate=400
+</IfModule>
+
+Level 4 - Strong
+
+<IfModule reqtimeout_module>
+    RequestReadTimeout header=10-20,MinRate=800
+</IfModule>
+
+KeepAlive Off
+
+Level 5 - Aggresive
+
+<IfModule reqtimeout_module>
+    RequestReadTimeout header=5-10,MinRate=1600
+</IfModule>
+
+KeepAlive Off
+
+### Keep Alive On Settings
 
 MaxKeepAliveRequests 50
 
