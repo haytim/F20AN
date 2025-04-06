@@ -1,3 +1,4 @@
+```
 ## List of commands
 
 ### Starting
@@ -111,3 +112,4 @@ KeepAliveTimeout 2
 ### Restart Apache after changing config
 
 apachectl restart
+```
