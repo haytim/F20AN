@@ -1,4 +1,4 @@
-```
+
 ## List of commands
 
 ### Starting
@@ -68,7 +68,7 @@ docker exec -it my-apache-app bash
 apt update && apt install -y nano
 
 nano /usr/local/apache2/conf/httpd.conf
-
+```
 Level 1 - No Additional Protection to KeepAlive Off
 
 KeepAlive Off
@@ -102,7 +102,7 @@ Level 5 - Aggresive
 </IfModule>
 
 KeepAlive Off
-
+```
 ### Keep Alive On Settings
 
 MaxKeepAliveRequests 50
@@ -112,4 +112,4 @@ KeepAliveTimeout 2
 ### Restart Apache after changing config
 
 apachectl restart
-```
+
