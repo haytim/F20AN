@@ -1,0 +1,5 @@
+Time Total: 0.001602
+Time Total: 0.002465
+Time Total: 0.000882
+Time Total: 0.001020
+Time Total: 0.001454
